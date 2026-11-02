@@ -4,6 +4,9 @@ on:
   push:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   apk:
     runs-on: ubuntu-latest
@@ -19,8 +22,18 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew assembleDebug --no-daemon
+          cp app/build/outputs/apk/debug/app-debug.apk AnalistaDeErros-teste.apk
 
       - uses: actions/upload-artifact@v4
         with:
           name: AnalistaDeErros-teste
-          path: app/build/outputs/apk/debug/*.apk
+          path: AnalistaDeErros-teste.apk
+
+      # Publica o APK em "Releases" para baixar direto pelo celular
+      - name: Publicar o APK para download
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "teste-${{ github.run_number }}" AnalistaDeErros-teste.apk \
+            --prerelease --title "APK de teste ${{ github.run_number }}" \
+            --notes "Versão de teste do Analista de Erros. Baixe o arquivo .apk abaixo e instale no celular."
