@@ -418,6 +418,10 @@ button.schip:hover{border-color:var(--ink-2)}
       <li><a href="https://www.samsung.com/mx/support/home-appliances/error-codes-in-air-conditioning" target="_blank" rel="noopener">Samsung: códigos de erro (página oficial do México)</a></li>
       <li>Samsung: apostila de reparos “Códigos &amp; Soluções” dos condicionadores split (2013), com as luzes dos modelos sem display, os LEDs da condensadora, o código de opção, a EEPROM da condensadora e os valores dos sensores.</li>
       <li><a href="https://www.boxt.co.uk/air-conditioning/guides/samsung-air-conditioning-fault-codes" target="_blank" rel="noopener">Samsung: lista de códigos com E231, E237 e E440/E441 (Boxt)</a></li>
+      <li><a href="https://www.manualslib.com/manual/1349453/Carrier-40maq.html?page=14" target="_blank" rel="noopener">Carrier: códigos e piscadas da série 40MAQ (manual de instalação)</a></li>
+      <li><a href="https://www.midea.com/content/dam/midea-aem/br/climatizacao/pisoteto-e-cassette/ar-condicionado-split-xpower-inverter/IOM.pdf" target="_blank" rel="noopener">Carrier: manual do piso-teto Xpower inverter 42ZQV, com os alarmes 01 a 41 (PDF)</a></li>
+      <li><a href="https://www.midea.com/content/dam/midea-aem/br/climatizacao/pisoteto-e-cassette/piso-teto-space-36000-btu-h-frio/Manual-do-Usu-rio-Piso-Teto-Space.pdf" target="_blank" rel="noopener">Carrier: manual do piso-teto Space 42XQ, com as luzes de defeito (PDF)</a></li>
+      <li><a href="https://www.manualsdir.com/manuals/242618/carrier-42xq_42xqa.html?page=7" target="_blank" rel="noopener">Carrier: piscadas do LED verde dos 42XQ/42XQA</a></li>
       <li><a href="https://webarcondicionado.com.br/codigo-erro-ar-condicionado-midea-2" target="_blank" rel="noopener">Midea e Springer: tabelas por linha (WebArCondicionado)</a></li>
       <li><a href="https://static.webarcondicionado.com.br/blog/uploads/2022/09/codigo-erro-ar-condicionado-midea.pdf" target="_blank" rel="noopener">Midea e Springer: tabelas de luzes do All Easy e da linha Liva/Springer (PDF)</a></li>
       <li><a href="https://fskmykglmkwhbkbhnqht.supabase.co/storage/v1/object/public/training-materials/library/1781087298837-j6vl4r.pdf" target="_blank" rel="noopener">Midea: treinamento técnico Multi Split Free Match, com a tabela de LEDs (PDF)</a></li>
@@ -565,6 +569,30 @@ conv|E6|Sensor da serpentina do evaporador (T2) aberto ou em curto|sensor
 conv|E7|Sensor da serpentina do condensador (T3) aberto ou em curto (alguns modelos)|sensor
 conv|E9|Falha de comunicação entre as unidades (modelos de 22.000 BTUs com duas placas)|comunicacao
 conv|EC|Vazamento de gás refrigerante detectado|gas`;
+
+/* Luzes dos inverter antigos sem display (Midea, Springer e Carrier 40MAQ) */
+const MIDEA_INV_LED = `
+1,off|Erro na memória (EEPROM) da evaporadora|placa|||E0
+2,off|Falha de comunicação entre evaporadora e condensadora|comunicacao|||E1
+3,off|Falha no sinal de tensão (cruzamento por zero)|placa|||E2
+4,off|Velocidade do ventilador da evaporadora fora de controle|ventilador|||E3
+5,off|Sensor de temperatura ambiente (T1) aberto ou em curto|sensor|||E4
+6,off|Sensor da serpentina do evaporador (T2) aberto ou em curto|sensor|||E5
+7,off|Vazamento de gás refrigerante detectado|gas|||EC
+1,on|Proteção contra corrente alta no módulo inverter (IGBT ou IPM)|compressor|||F0
+2,on|Sensor de temperatura externa (T4) aberto ou em curto|sensor|||F1
+3,on|Sensor da serpentina do condensador (T3) aberto ou em curto|sensor|||F2
+4,on|Sensor de descarga do compressor (T5) aberto ou em curto|sensor|||F3
+5,on|Erro na memória (EEPROM) da condensadora|placa|||F4
+6,on|Velocidade do ventilador da condensadora fora de controle|ventilador|||F5
+7,on|Sensor de saída do evaporador (T2B) aberto ou em curto|sensor
+1,pisca|Proteção do módulo inverter (IPM)|compressor|||P0
+2,pisca|Proteção contra tensão alta ou baixa|energia|||P1
+3,pisca|Proteção contra temperatura alta do compressor|protecao|||P2
+4,pisca|Proteção por temperatura externa baixa|aviso
+5,pisca|Erro na placa inverter do compressor|compressor|||P4
+6,pisca|Conflito de modo entre evaporadoras (multi split)|aviso|Deixe todas as evaporadoras no mesmo modo.
+7,pisca|Proteção contra pressão baixa|gas`;
 
 const ELGIN_CODES = ['EH 00','EL 01','EH 02','EH 03','EH 0b','EH 60','EH 61','EC 07','EC 51','EC 52','EC 53','EC 54','EC 56','EL 0C','PC 00','PC 01','PC 02','PC 03','PC 04','PC 08','PC 40','--','dF','SC','CL','FP','FC','AP'];
 const elginRows = MIDEA_NEW.trim().split('\n').filter(r => ELGIN_CODES.includes(r.split('|')[1])).map(r => r.replace(/^novo\|/, 'atual|')).join('\n');
@@ -780,35 +808,14 @@ all|E500|Superaquecimento do módulo inverter (IPM)|protecao
 all|E554|Vazamento de gás refrigerante detectado|gas
 all|E556|Capacidade da evaporadora incompatível com a condensadora|instalacao|Unidades de capacidades (BTUs) que não combinam, ou código de opção errado na evaporadora.` },
 
-{ id:'midea', name:'Midea · Springer · Carrier', label:'Midea/Springer/Carrier', short:'Midea · Springer', search:'Springer Midea', aka:['midea','springer','carrier','comfee'],
+{ id:'midea', name:'Midea · Springer', label:'Midea/Springer', short:'Midea · Springer', search:'Springer Midea', aka:['midea','springer','comfee'],
   read:'Os inverter atuais mostram 4 caracteres (EH 00, EL 01, PC 04). Gerações anteriores usam códigos curtos (E1, F2, P0): o EL 01 equivale ao antigo E1. Na linha convencional (Liva, Springer), o E1 é memória da placa, não comunicação. Confira o modelo na etiqueta.',
   ledRead:'Sem display, uma luz pisca algumas vezes e a outra completa o código: apagada, acesa ou piscando. Escolha a linha do aparelho: inverter ou convencional.',
   leds:[
     { id:'inv', unit:'evap', name:'Inverter sem display', desc:'All Easy, Multi Split Free Match e outros inverter com luzes no painel', eqLine:'antigo', eqLabel:'Código equivalente nos modelos com display (linha Inverter antigo)',
       lamps:[['Operação','w'],['Timer','w']],
       how:'A luz de operação pisca de 1 a 7 vezes, faz uma pausa e repete. A luz do timer completa o código: apagada, acesa ou piscando.',
-      rows:`
-1,off|Erro na memória (EEPROM) da evaporadora|placa|||E0
-2,off|Falha de comunicação entre evaporadora e condensadora|comunicacao|||E1
-3,off|Falha no sinal de tensão (cruzamento por zero)|placa|||E2
-4,off|Velocidade do ventilador da evaporadora fora de controle|ventilador|||E3
-5,off|Sensor de temperatura ambiente (T1) aberto ou em curto|sensor|||E4
-6,off|Sensor da serpentina do evaporador (T2) aberto ou em curto|sensor|||E5
-7,off|Vazamento de gás refrigerante detectado|gas|||EC
-1,on|Proteção contra corrente alta no módulo inverter (IGBT ou IPM)|compressor|||F0
-2,on|Sensor de temperatura externa (T4) aberto ou em curto|sensor|||F1
-3,on|Sensor da serpentina do condensador (T3) aberto ou em curto|sensor|||F2
-4,on|Sensor de descarga do compressor (T5) aberto ou em curto|sensor|||F3
-5,on|Erro na memória (EEPROM) da condensadora|placa|||F4
-6,on|Velocidade do ventilador da condensadora fora de controle|ventilador|||F5
-7,on|Sensor de saída do evaporador (T2B) aberto ou em curto|sensor
-1,pisca|Proteção do módulo inverter (IPM)|compressor|||P0
-2,pisca|Proteção contra tensão alta ou baixa|energia|||P1
-3,pisca|Proteção contra temperatura alta do compressor|protecao|||P2
-4,pisca|Proteção por temperatura externa baixa|aviso
-5,pisca|Erro na placa inverter do compressor|compressor|||P4
-6,pisca|Conflito de modo entre evaporadoras (multi split)|aviso|Deixe todas as evaporadoras no mesmo modo.
-7,pisca|Proteção contra pressão baixa|gas` },
+      rows: MIDEA_INV_LED },
     { id:'conv', unit:'evap', name:'Convencional sem display', desc:'Liva, Springer e outros não inverter com luzes no painel', eqLine:'conv', eqLabel:'Código equivalente nos modelos com display',
       lamps:[['Operação','w'],['Timer','w']],
       how:'Conte as piscadas da luz de operação e veja se a do timer está apagada ou acesa. Se as luzes do seu painel tiverem outros nomes, vale a mesma regra: uma luz pisca e a outra fica apagada ou acesa.',
@@ -822,8 +829,68 @@ all|E556|Capacidade da evaporadora incompatível com a condensadora|instalacao|U
 9,off|Falha de comunicação entre as unidades (modelos de 22.000 BTUs com duas placas)|comunicacao|||E9
 2,on|Vazamento de gás refrigerante detectado|gas|Com 2 piscadas e a outra luz apagada, o defeito é outro: falha no sinal de tensão (E2).||EC` }
   ],
-  lines:{ novo:['Inverter atual','Xtreme Save, AI Ecomaster, All Easy e Springer/Carrier inverter recentes'], antigo:['Inverter antigo','gerações anteriores, com códigos curtos como E1, F2, P0'], conv:['Convencional','Liva, Springer e outros não inverter'] },
+  lines:{ novo:['Inverter atual','Xtreme Save, AI Ecomaster, All Easy e Springer inverter recentes'], antigo:['Inverter antigo','gerações anteriores, com códigos curtos como E1, F2, P0'], conv:['Convencional','Liva, Springer e outros não inverter'] },
   rows: MIDEA_NEW + MIDEA_OLD + MIDEA_CONV },
+
+{ id:'carrier', name:'Carrier', aka:['carrier','xpower','x-power','xperience'],
+  read:'No Brasil, os Carrier são fabricados pela Midea Carrier: os Hi-Wall inverter recentes mostram 4 caracteres (EH 00, EL 01, PC 04) e os antigos, como a série 40MAQ, usam códigos curtos (E1, F2, P0). Os piso-teto Xpower inverter (42ZQV) mostram números de 01 a 41 no display da evaporadora. Confira o modelo na etiqueta e escolha a linha.',
+  ledRead:'Nos Hi-Wall inverter antigos sem display, a luz de operação pisca de 1 a 7 vezes e a do timer completa o código. No piso-teto Space (42XQ), cada luz que pisca indica um defeito.',
+  leds:[
+    { id:'antigo', unit:'evap', name:'Hi-Wall inverter sem display', desc:'40MAQ e outros Hi-Wall inverter antigos com luzes Operação e Timer', eqLine:'antigo', eqLabel:'Código equivalente nos modelos com display',
+      lamps:[['Operação','w'],['Timer','w']],
+      how:'A luz de operação pisca de 1 a 7 vezes, faz uma pausa e repete. A luz do timer completa o código: apagada, acesa ou piscando.',
+      rows: MIDEA_INV_LED },
+    { id:'space', unit:'evap', name:'Piso-teto Space (42XQ)', desc:'luzes Power (verde), Sleep (amarela) e Timer (vermelha) da evaporadora',
+      lamps:[['Power','g'],['Sleep','y'],['Timer','r']],
+      how:'O manual não conta piscadas: o que importa é qual luz pisca e se a piscada é contínua ou com pausa.',
+      rows:`
+pisca,*,*|Proteção contra congelamento da evaporadora|protecao|Luz Power piscando sem pausa. Com pausas entre as piscadas, o defeito é outro: falha na refrigeração.
+pisca,*,*|Falha na refrigeração|gas|Luz Power piscando com pausas. Sem pausa, é proteção contra congelamento.
+*,pisca,*|Proteção contra sobrecarga do compressor no modo quente|compressor
+*,*,pisca|Sensor de temperatura ambiente ou de congelamento aberto ou em curto|sensor` },
+    { id:'xq', unit:'evap', name:'42XQ/42XQA com LED verde', desc:'modelos 42XQ e 42XQA (fora do Brasil) que piscam o LED verde a cada 5 segundos',
+      lamps:[['LED verde','g','m']],
+      how:'Em falha, o LED verde pisca algumas vezes, para por 5 segundos e repete. Conte as piscadas.',
+      rows:`
+3|Sensor de temperatura ambiente com defeito|sensor
+4|Sensor da serpentina da evaporadora com defeito|sensor
+7|Falha na unidade externa|geral
+10|Erro na memória (EEPROM)|placa
+11|Número de série da placa corrompido|placa
+12|Endereço ou zona incompletos (configuração)|instalacao
+13|Erro na distribuição do fluxo de gás|gas` }
+  ],
+  lines:{ inv:['Hi-Wall inverter atual','X-Power, Xperience e outros Hi-Wall inverter recentes'], antigo:['Hi-Wall inverter antigo','série 40MAQ e gerações com códigos curtos (E1, F2, P0)'], xpower:['Piso-teto Xpower inverter','42ZQV com condensadoras 38CCVB e 38CQVB, de 30 a 60 mil BTUs'] },
+  rows: MIDEA_NEW.replace(/^novo\|/gm, 'inv|') + MIDEA_OLD + `
+xpower|00|Alarme da evaporadora: a causa aparece nas luzes Power, Timer e Defrost|geral|O manual lista: congelamento do evaporador, refrigeração ou aquecimento fracos (no quente, confira a DIP de configuração), sensor de ambiente ou da serpentina, placa eletrônica, sobrecarga do compressor (volta sozinho se não persistir) ou software incompatível (troca da placa principal).
+xpower|01|Falha de comunicação entre evaporadora e condensadora|comunicacao|Nos alarmes da condensadora, todas as luzes da evaporadora piscam juntas e o número aparece no display.
+xpower|02|Falha de comunicação entre a placa principal e o driver (inverter) da condensadora|comunicacao
+xpower|03|Sensor de temperatura externa com defeito|sensor
+xpower|04|Sensor do meio do condensador com defeito|sensor
+xpower|05|Sensor de sucção com defeito|sensor
+xpower|06|Sensor de descarga com defeito|sensor
+xpower|07|Temperatura muito alta no meio do condensador|protecao|Volta sozinho; se persistir, exige reset manual.
+xpower|08|Temperatura de sucção muito alta|gas|Exige reset manual.
+xpower|09|Temperatura de sucção muito baixa|gas|Volta sozinho; se persistir, exige reset manual.
+xpower|10|Proteção de temperatura de descarga|gas|Volta sozinho; se persistir, exige reset manual.
+xpower|11|Erro na válvula de expansão eletrônica (EXV)|gas|Volta sozinho; se persistir, exige reset manual.
+xpower|12|Pressão baixa|gas
+xpower|13|Pressão alta|gas|Condensadora suja ou sem ventilação é a causa mais comum.
+xpower|14|Temperatura alta no compressor|compressor
+xpower|16|Frequência do compressor reduzida por proteção|protecao|Exige reset manual.
+xpower|17|Falha no aquecimento|protecao
+xpower|30|Sobrecorrente detectada pelo hardware do driver|compressor
+xpower|31|Falha no chaveamento do driver|compressor
+xpower|32|Sobrecorrente detectada pelo software do driver|compressor
+xpower|33|Erro na leitura de corrente do driver|placa
+xpower|34|Superaquecimento do dissipador do driver|protecao
+xpower|35|Sobretensão no barramento DC|energia
+xpower|36|Subtensão no barramento DC|energia
+xpower|37|Sobrecorrente na entrada do driver|compressor
+xpower|38|Erro no PFC|compressor
+xpower|39|Sensor do dissipador com defeito|sensor
+xpower|40|Erro na memória (EEPROM) e outros erros do driver|placa|Exige reset manual.
+xpower|41|Falha de comunicação interna do driver|comunicacao` },
 
 { id:'gree', name:'Gree', aka:['gree'],
   read:'O código aparece no display da evaporadora. “H1” no modo quente é degelo, não defeito. Algumas linhas comerciais usam outra tabela.',
@@ -2198,6 +2265,10 @@ const SENS = {
       { m: '24 mil BTUs', src: 'ame', cond: '|20k; |5k; |5k; |0,2Ω ou curto' }
     ] }
 };
+/* Carrier (Midea Carrier no Brasil): mesmo padrão de sensores da Midea; modelos Carrier da tabela AME e da planilha Eletrofer */
+SENS.carrier = { std: SENS.midea.std, stdSrc: 'midea', curves: SENS.midea.curves,
+  stdNote: 'Os Carrier fabricados pela Midea Carrier usam o mesmo padrão de sensores da Midea. ' + SENS.midea.stdNote,
+  models: SENS.midea.models.filter(m => /carrier/i.test(m.m)).map(m => Object.assign({}, m)) };
 const SENS_COLORS = { branco: '#FFFFFF', preto: '#1C1C1C', vermelho: '#E5383B', amarelo: '#F2C230', azul: '#2F6FDB', verde: '#2E9E55', cinza: '#9AA0A6', marrom: '#8B5A2B', roxo: '#7E4BC1' };
 function parseSensItems(str) {
   return String(str || '').split(';').map(s => s.trim()).filter(Boolean).map(s => {
@@ -2586,7 +2657,7 @@ function group(key, title, list, sub, defLimit = 30) {
 }
 
 const plural = (n, s, p) => `${n.toLocaleString('pt-BR')} ${n === 1 ? s : p}`;
-const COMMON = ['lg:inv:CH05','midea:novo:EL 01','samsung:all:E101','gree:res:E6','gree:res:H6','daikin:split:U4','midea:novo:EL 0C','lg:inv:CH38','consul:inv:7','gree:res:E1'];
+const COMMON = ['lg:inv:CH05','midea:novo:EL 01','carrier:inv:EL 01','samsung:all:E101','gree:res:E6','gree:res:H6','daikin:split:U4','midea:novo:EL 0C','lg:inv:CH38','consul:inv:7','gree:res:E1'];
 const EXAMPLES = ['E1','CH05','EL 01','E6','U4','H6','dF','vazando água'];
 const LED_HINT = `<div class="hint"><p><b>Aparelho sem display?</b> Veja o que significam as luzes piscando na evaporadora ou na condensadora.</p><button type="button" class="btn primary" data-setmode="led" data-carry="">Ver luzes piscando</button></div>`;
 const LEDISH = /pisc|\bvez(es)?\b|\bleds?\b|\bluz(es)?\b|lampad|^\d{1,2} ?[x×]$/;
