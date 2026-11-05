@@ -293,7 +293,7 @@ button.schip:hover{border-color:var(--ink-2)}
 .pp-u{font:600 12px/1.2 var(--font-body);color:var(--ink-2)}
 .pad .pad-panels{margin:0}
 .pad .pp ~ .pad-t{margin-top:16px}
-.pad .pad-panels .chip{height:34px;border-radius:999px;font-size:13px;padding:0 12px}
+.pad .pad-panels .chip{height:auto;min-height:34px;border-radius:999px;font-size:13px;padding:6px 12px;white-space:normal;line-height:1.25;text-align:left;max-width:100%}
 .pad-hint{margin:0;color:var(--ink-2);font-size:13.5px;max-width:60ch}
 .lpick{display:grid;gap:8px;max-width:520px}
 .lp-row{display:grid;grid-template-columns:minmax(0,96px) minmax(0,1fr);gap:10px;align-items:center}
@@ -432,6 +432,8 @@ button.schip:hover{border-color:var(--ink-2)}
       <li><a href="https://www.lg.com/cac/soporte/ayuda-producto/CT30014140-20153412659958" target="_blank" rel="noopener">LG: ajuda oficial sobre o código CH05</a></li>
       <li><a href="https://static.webarcondicionado.com.br/pdfs/samsung-codigos-de-erro.pdf" target="_blank" rel="noopener">Samsung: tabelas de códigos (PDF)</a></li>
       <li><a href="https://www.samsung.com/mx/support/home-appliances/error-codes-in-air-conditioning" target="_blank" rel="noopener">Samsung: códigos de erro (página oficial do México)</a></li>
+      <li><a href="https://www.luce.sg/blog/samsung-air-conditioner-error-codes" target="_blank" rel="noopener">Samsung: lista ampliada de códigos e luzes de cassete e duto (Luce)</a></li>
+      <li><a href="https://removeandreplace.com/2017/08/15/samsung-split-system-air-conditioning-ac-error-codes-and-troubleshooting/" target="_blank" rel="noopener">Samsung: códigos de split, multi e comerciais (RemoveAndReplace)</a></li>
       <li>Samsung: apostila de reparos “Códigos &amp; Soluções” dos condicionadores split (2013), com as luzes dos modelos sem display, os LEDs da condensadora, o código de opção, a EEPROM da condensadora e os valores dos sensores.</li>
       <li><a href="https://www.boxt.co.uk/air-conditioning/guides/samsung-air-conditioning-fault-codes" target="_blank" rel="noopener">Samsung: lista de códigos com E231, E237 e E440/E441 (Boxt)</a></li>
       <li><a href="https://www.manualslib.com/manual/1349453/Carrier-40maq.html?page=14" target="_blank" rel="noopener">Carrier: códigos e piscadas da série 40MAQ (manual de instalação)</a></li>
@@ -703,6 +705,17 @@ off,off,pisca|Falha no ventilador da evaporadora|ventilador|||E154
 pisca,off,pisca|Falha na condensadora|geral|Os LEDs amarelo, verde e vermelho na placa da condensadora dizem qual é a falha.|||go:condsi
 pisca,pisca,pisca|Erro na memória (EEPROM) da evaporadora|placa|Com todas as luzes piscando, também pode ser erro de opção.||E162
 pisca,pisca,pisca|Erro de opção: código de opção não gravado ou errado|instalacao|Com todas as luzes piscando, também pode ser erro na memória (EEPROM).||E163` },
+    { id:'k7', unit:'evap', name:'Cassete e duto antigos', desc:'evaporadoras comerciais sem display, com as luzes Operação, Reserva e Filtro', eqLine:'all', eqLabel:'Código equivalente nos modelos com display', pick:true,
+      lamps:[['Operação','w'],['Reserva','w'],['Filtro','w']],
+      how:'As luzes piscam cerca de uma vez por segundo. Quando duas piscam, veja se piscam juntas ou alternadas: o defeito muda.',
+      rows:`
+off,off,pisca|Sensor da tubulação da condensadora com defeito|sensor
+off,pisca,off|Sensor de temperatura ambiente da evaporadora com defeito|sensor|||E121
+pisca,pisca,off|Sensor da tubulação da evaporadora com defeito|sensor|Com as duas luzes piscando juntas. Se elas alternarem, é falha de comunicação com o controle com fio.||E122
+pisca,pisca,off|Falha de comunicação com o controle com fio|comunicacao|Com Operação e Reserva piscando alternadas. Se piscarem juntas, é o sensor da tubulação da evaporadora.||E601
+pisca,off,pisca|Sensor de temperatura externa com defeito|sensor|||E221
+off,pisca,pisca|Falha de comunicação entre evaporadora e condensadora|comunicacao|Com Reserva e Filtro piscando juntas. Se alternarem, é a boia do dreno.||E101
+off,pisca,pisca|Boia do dreno acionada|drenagem|Com Reserva e Filtro piscando alternadas. Se piscarem juntas, é falha de comunicação.||E153` },
     { id:'cond', unit:'cond', name:'Condensadora Neo Forte e Vivace', desc:'inverter AQV**NSBN e AQV**VBEN, LEDs amarelo, verde e vermelho na placa da unidade externa', eqLine:'all', eqLabel:'Código equivalente no display', pick:true,
       lamps:[['Amarelo','y','m'],['Verde','g','m'],['Vermelho','r','m']],
       how:'Funcionando sem falha, o verde pisca e o vermelho fica aceso.',
@@ -800,8 +813,8 @@ all|E404|Compressor parado por sobrecarga|protecao
 all|E416|Temperatura de descarga do compressor alta demais|gas
 all|E422|Tubulação obstruída, válvula de serviço fechada ou falta de gás|gas
 all|E425|Falta de fase ou fase invertida (modelos trifásicos)|energia
-all|E440|Aquecimento bloqueado: temperatura externa fora da faixa|aviso|Volta sozinho quando a temperatura externa entra na faixa de funcionamento.
-all|E441|Refrigeração bloqueada: temperatura externa baixa demais|aviso|Volta sozinho quando a temperatura externa sobe.
+all|E440|Aquecimento bloqueado: temperatura externa fora da faixa|aviso|Volta sozinho quando a temperatura externa entra na faixa. Nas listas atuais, o bloqueio vem com mais de 30 °C externos; o manual de 2013 cita 40 °C.
+all|E441|Refrigeração bloqueada: temperatura externa baixa demais|aviso|Volta sozinho quando a temperatura externa sobe. O limite muda por linha: −5 °C nas listas atuais e −7 °C no manual de 2013.
 all|E458|Falha no ventilador da condensadora|ventilador
 all|E461|Falha na partida do compressor inverter|compressor
 all|E462|Sobrecorrente no PFC (I-Trip): proteção de corrente total acionada|compressor
@@ -822,7 +835,61 @@ all|E484|Sobrecarga do PFC|compressor
 all|E485|Falha no sensor de corrente de entrada|placa
 all|E500|Superaquecimento do módulo inverter (IPM)|protecao
 all|E554|Vazamento de gás refrigerante detectado|gas
-all|E556|Capacidade da evaporadora incompatível com a condensadora|instalacao|Unidades de capacidades (BTUs) que não combinam, ou código de opção errado na evaporadora.` },
+all|E556|Capacidade da evaporadora incompatível com a condensadora|instalacao|Unidades de capacidades (BTUs) que não combinam, ou código de opção errado na evaporadora.
+all|E108|Endereço repetido: duas unidades com o mesmo endereço|instalacao|Comum em multi split e sistemas com controle central. Revise o endereço de cada evaporadora.
+all|E109|Endereço da evaporadora não configurado|instalacao
+all|E130|Sensores de entrada e de saída do evaporador soltos ao mesmo tempo|sensor
+all|E151|Válvula de expansão eletrônica (EEV) da evaporadora não abre|gas|Em multi split e dutos com EEV na evaporadora.
+all|E152|Válvula de expansão eletrônica (EEV) da evaporadora não fecha|gas
+all|E155|Falha no ventilador 2 da evaporadora|ventilador|Em evaporadoras com dois motores de ventilador.
+all|E161|Evaporadoras em modos diferentes ao mesmo tempo (frio e quente)|aviso|Deixe todas as evaporadoras no mesmo modo.
+all|E191|Temperatura de saída do evaporador não muda na verificação da tubulação|instalacao|Confira se a tubulação de cada evaporadora está ligada à condensadora certa.
+all|E192|Temperatura de entrada do evaporador fora do esperado na verificação da tubulação|instalacao
+all|E193|Temperatura de saída do evaporador fora do esperado na verificação da tubulação|instalacao
+all|E206|Falha de comunicação entre a placa principal e a placa auxiliar da condensadora|comunicacao
+all|E226|Sensor de temperatura do ar externo solto|sensor
+all|E236|Sensor de saída do condensador (secundário) aberto ou em curto|sensor
+all|E241|Sensor do meio do condensador solto|sensor
+all|E246|Sensor de saída do condensador solto|sensor
+all|E291|Sensor de alta pressão aberto ou em curto|sensor
+all|E296|Sensor de baixa pressão aberto ou em curto|sensor
+all|E301|Sensor de alta pressão solto|sensor
+all|E306|Sensor de baixa pressão solto|sensor
+all|E308|Sensor de temperatura de sucção aberto ou em curto|sensor
+all|E313|Falha na válvula de 4 vias|gas|Confira a bobina e o comando da válvula na placa.
+all|E401|Proteção contra congelamento da serpentina|protecao|Filtro sujo, vazão de ar baixa ou falta de gás são as causas mais comuns.
+all|E402|Proteção contra congelamento da serpentina (2ª detecção)|protecao
+all|E405|Compressor parado por sobrecarga (2ª detecção)|protecao
+all|E407|Compressor parado pela proteção de alta pressão|gas|Condensadora suja ou sem ventilação, excesso de gás ou válvula fechada.
+all|E410|Compressor parado pela proteção de baixa pressão|gas
+all|E419|Válvula de expansão eletrônica (EEV) da condensadora não abre no autoteste|gas
+all|E428|Razão de compressão fora do normal|gas
+all|E438|Válvula EEV do circuito EVI não abre|gas
+all|E439|Vazamento de gás detectado com o sistema parado|gas
+all|E442|Carga de gás no modo quente bloqueada: temperatura externa acima de 15 °C|aviso
+all|E443|Pressão de gás anormal: partida bloqueada|gas|Também aparece como vazamento de gás com o sistema funcionando.
+all|E452|Queda de energia momentânea (sem cruzamento por zero)|energia|Some sozinho quando o compressor volta a funcionar.
+all|E453|Superaquecimento do motor do ventilador da condensadora|ventilador
+all|E454|Rotação do ventilador da condensadora fora do normal|ventilador
+all|E455|Superaquecimento do IPM do motor do ventilador da condensadora|ventilador
+all|E456|Sobrecorrente no motor do ventilador da condensadora|ventilador
+all|E457|Ventilador da condensadora girando ao contrário|ventilador|Vento forte contra a hélice também pode causar.
+all|E460|Cabo de comunicação ligado no borne de força|instalacao|Desligue a energia e corrija a ligação antes de religar: a placa pode queimar.
+all|E475|Falha no ventilador 2 da condensadora|ventilador
+all|E486|Tensão do barramento DC do ventilador alta ou baixa|energia
+all|E487|Falha no sensor Hall do motor do ventilador da condensadora|ventilador
+all|E488|Falha no sensor de tensão de entrada (rede)|placa
+all|E503|Válvula de serviço possivelmente fechada|instalacao|Confira se as válvulas de serviço da condensadora estão totalmente abertas.
+all|E508|Instalação inteligente (Smart Install) não concluída|instalacao
+all|E551|Degelo em andamento|aviso
+all|E552|Pressão de descarga baixa|gas
+all|E557|Erro de opção do controle (DPM)|instalacao
+all|E559|Evaporadora parada por falha desconhecida na condensadora|geral|Veja o código ou os LEDs da condensadora.
+all|E601|Falha de comunicação entre o controle com fio e a evaporadora|comunicacao
+all|E602|Falha de comunicação entre controles com fio (principal e secundário)|comunicacao
+all|E604|Falhas repetidas de comunicação entre o controle com fio e a evaporadora|comunicacao
+all|E606|Controle com fio ligado no borne errado da evaporadora (COM1)|instalacao
+all|E607|Mais de um controle com fio configurado como principal|instalacao` },
 
 { id:'midea', name:'Midea · Springer', label:'Midea/Springer', short:'Midea · Springer', search:'Springer Midea', aka:['midea','springer','comfee'],
   read:'Os inverter atuais mostram 4 caracteres (EH 00, EL 01, PC 04). Gerações anteriores usam códigos curtos (E1, F2, P0): o EL 01 equivale ao antigo E1. Na linha convencional (Liva, Springer), o E1 é memória da placa, não comunicação. Confira o modelo na etiqueta.',
@@ -3479,6 +3546,6 @@ render();
 })();
 </script>
 
-<p style="text-align:center;font:13px system-ui,sans-serif;opacity:.6;margin:0 0 28px">Versão do app 0.4-teste</p>
+<p style="text-align:center;font:13px system-ui,sans-serif;opacity:.6;margin:0 0 28px">Versão do app 0.5-teste</p>
 </body>
 </html>
