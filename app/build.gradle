@@ -10,11 +10,24 @@ android {
         applicationId 'com.analistadeerros.app'
         minSdk 24
         targetSdk 35
-        versionCode 3
-        versionName '0.3-teste'
+        versionCode 4
+        versionName '0.4-teste'
+    }
+
+    // Mesma assinatura em todas as versões de teste, para atualizar por cima sem desinstalar
+    signingConfigs {
+        teste {
+            storeFile file('teste.keystore')
+            storePassword 'analista123'
+            keyAlias 'teste'
+            keyPassword 'analista123'
+        }
     }
 
     buildTypes {
+        debug {
+            signingConfig signingConfigs.teste
+        }
         release {
             minifyEnabled false
         }
