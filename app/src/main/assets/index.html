@@ -448,6 +448,8 @@ button.schip:hover{border-color:var(--ink-2)}
       <li><a href="https://www.webarcondicionado.com.br/codigo-de-erro-ar-condicionado-gree" target="_blank" rel="noopener">Gree: guia de códigos (WebArCondicionado)</a></li>
       <li><a href="https://www.webarcondicionado.com.br/codigo-de-erro-ar-condicionado-electrolux" target="_blank" rel="noopener">Electrolux: códigos por família (WebArCondicionado)</a></li>
       <li><a href="https://static.webarcondicionado.com.br/blog/uploads/2022/09/C%C3%B3digo-de-Erro-Ar-Condicionado-Electrolux.pdf" target="_blank" rel="noopener">Electrolux: códigos e luzes OPER e TIMER (PDF)</a></li>
+      <li><a href="https://blog.centralar.com.br/erro-ar-condicionado-consul/" target="_blank" rel="noopener">Consul: tabela do split inverter com E42 e E43 (CentralAr)</a></li>
+      <li><a href="https://whirlpool.vteximg.com.br/arquivos/Consul-Ar-Janela-CCN10EB-Manual.pdf" target="_blank" rel="noopener">Consul: manual dos janela eletrônicos CCN e inverter CCK, com o aviso Limpar Filtro (PDF)</a></li>
       <li><a href="https://static.webarcondicionado.com.br/pdfs/consul-codigos-de-erro.pdf" target="_blank" rel="noopener">Consul: diagnóstico do split inverter (PDF)</a></li>
       <li><a href="https://philco.vteximg.com.br/arquivos/Manual_AR_CONDICIONADO_PHILCO_9000BTUS_PAC9000IFM9_INVERTER_096652680.pdf" target="_blank" rel="noopener">Philco: manual do PAC9000IFM9 Inverter, com os LEDs da condensadora (PDF)</a></li>
       <li><a href="https://www.auvo.com/blog/codigo-erro-philco" target="_blank" rel="noopener">Philco: códigos das linhas FM (Auvo)</a></li>
@@ -1099,10 +1101,20 @@ fm|F9|Sensor da serpentina da condensadora com defeito|sensor` },
 
 { id:'consul', name:'Consul', aka:['consul'],
   read:'Espere o compressor parar e aperte 4 vezes o botão “Sono” do controle: o código aparece no display. E4 e EA aparecem sozinhos. Antes, faça o reset com o disjuntor desligado por 1 minuto.',
-  ledRead:'No split inverter da Consul, o código aparece no display depois de apertar 4 vezes o botão Sono do controle; use a busca por código. Ainda não temos a tabela de piscadas da Consul.',
+  ledRead:'No split inverter da Consul, o código aparece no display depois de apertar 4 vezes o botão Sono do controle; use a busca por código. Nos de janela (Multi Air, CCN, CCK), a Consul não publica tabela de luzes de defeito: aqui está o que é conhecido.',
+  leds:[
+    { id:'janela', unit:'evap', name:'Janela Multi Air e eletrônicos', desc:'Multi Air Digital 7500 e 10000 (CCB07, CCS07, CCB10, CCS10) e janela eletrônicos CCN e inverter CCK',
+      lamps:[['Limpar filtro','r']],
+      how:'A Consul não publica tabela de luzes de defeito para os aparelhos de janela. A luz vermelha de filtro piscando é aviso, não defeito.',
+      rows:`
+pisca|Lembrete de limpeza do filtro|aviso|Limpe o filtro e apague o aviso: nos CCN e CCK, segure Liga/Desliga por 5 segundos; nos Multi Air, técnicos relatam apagar segurando os botões de temperatura e de velocidade juntos. Se a luz continuar piscando depois disso e o aparelho apitar ou desarmar, confira a tensão da rede (queda de tensão) e a fonte da placa.
+on|Lembrete de limpeza do filtro|aviso|Nos CCN e CCK, o ícone “Limpar filtro” acende no display. Limpe o filtro e segure Liga/Desliga por 5 segundos para apagar.` }
+  ],
   lines:{ inv:['Inverter','Split Hi-Wall inverter'] },
   rows:`
 inv|E4|Problema no motor do ventilador da evaporadora|ventilador|Aparece sozinho no display, sem precisar do botão Sono.
+inv|E42|Proteção contra sub-resfriamento|protecao|Confira a carga de gás, a vazão de ar e os sensores das serpentinas.
+inv|E43|Proteção contra superaquecimento|protecao|Confira a ventilação da condensadora, a limpeza das serpentinas e a carga de gás.
 inv|EA/ER|Falha de comunicação entre a placa do display e a placa da evaporadora|comunicacao|||EA,ER
 inv|00|Falha de comunicação entre placas ou na alimentação elétrica|comunicacao
 inv|1|Sensor da serpentina da condensadora com defeito (conector preto)|sensor
@@ -3546,6 +3558,6 @@ render();
 })();
 </script>
 
-<p style="text-align:center;font:13px system-ui,sans-serif;opacity:.6;margin:0 0 28px">Versão do app 0.5-teste</p>
+<p style="text-align:center;font:13px system-ui,sans-serif;opacity:.6;margin:0 0 28px">Versão do app 0.6-teste</p>
 </body>
 </html>
