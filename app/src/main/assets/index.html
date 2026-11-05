@@ -429,6 +429,8 @@ button.schip:hover{border-color:var(--ink-2)}
     <summary>Fontes consultadas</summary>
     <ul>
       <li><a href="https://static.webarcondicionado.com.br/pdfs/lg-codigos-de-erro.pdf" target="_blank" rel="noopener">LG: manual de serviço com códigos, LEDs e tabela dos sensores (PDF)</a></li>
+      <li><a href="https://www.lg.com/ca_en/support/product-support/troubleshoot/help-library/cs-CT30000386-20153289364119/" target="_blank" rel="noopener">LG: códigos pelos LEDs das evaporadoras sem display (LG Canadá)</a></li>
+      <li><a href="https://www.orionair.co.uk/PDF/lg/LG_Split_Systems_Fault_Codes.pdf" target="_blank" rel="noopener">LG: unidade no LED Power e dezena no segundo LED (tabela de falhas, PDF)</a></li>
       <li><a href="https://www.lg.com/cac/soporte/ayuda-producto/CT30014140-20153412659958" target="_blank" rel="noopener">LG: ajuda oficial sobre o código CH05</a></li>
       <li><a href="https://static.webarcondicionado.com.br/pdfs/samsung-codigos-de-erro.pdf" target="_blank" rel="noopener">Samsung: tabelas de códigos (PDF)</a></li>
       <li><a href="https://www.samsung.com/mx/support/home-appliances/error-codes-in-air-conditioning" target="_blank" rel="noopener">Samsung: códigos de erro (página oficial do México)</a></li>
@@ -621,12 +623,16 @@ const elginRows = MIDEA_NEW.trim().split('\n').filter(r => ELGIN_CODES.includes(
 const BRANDS = [
 { id:'lg', name:'LG', aka:['lg'], numAlias:/^CH/,
   read:'O display alterna “CH” e o número (CH → 05). Sem display numérico, os LEDs piscam os dois dígitos do código: veja na aba Luzes.',
-  ledRead:'Os LEDs piscam os dois dígitos do código CH: um LED pisca a dezena e o outro, a unidade. Vale para o painel da evaporadora e para a placa da condensadora.',
+  ledRead:'Os LEDs piscam os dois dígitos do código CH: um LED pisca a dezena e o outro, a unidade. Vale para o painel da evaporadora e para a placa da condensadora. Na Inverter V (luzes brancas Power, Timer e Outdoor), a Power pisca a unidade e a Timer, a dezena.',
   leds:[
     { id:'evap', unit:'evap', name:'Evaporadora sem display', desc:'LEDs do painel; o manual cita as linhas Libero, Hiro e Art Cool', decimal:true, eqLine:'inv', prefix:'CH', eqLabel:'Código',
       lamps:[['LED 2','r','m'],['LED 1','b','m']],
       how:'O LED 2 (vermelho) pisca a dezena e o LED 1 (azul ou verde), a unidade. Ex.: CH12 = LED 2 pisca 1 vez e LED 1 pisca 2 vezes.',
       codes:'01 02 05 06 09 10 12' },
+    { id:'invv', unit:'evap', name:'Evaporadora Inverter V', desc:'luzes brancas Power, Timer e Outdoor no painel', decimal:true, eqLine:'inv', prefix:'CH', eqLabel:'Código',
+      lamps:[['Timer','w','f'],['Power','w','f']],
+      how:'Pela regra das evaporadoras LG sem display, a luz Power pisca a unidade do código e a Timer, a dezena; depois de uma pausa, repete. Ex.: CH05 = Power pisca 5 vezes e Timer apagada; CH53 = Timer pisca 5 vezes e Power, 3. A luz Outdoor acesa só indica a condensadora funcionando, não é código.',
+      codes:'01 02 03 04 05 06 07 09 10 12 21 22 23 24 25 26 27 28 29 32 33 34 35 38 40 41 44 45 46 51 53 54 60 61 62 65 67 72' },
     { id:'cond', unit:'cond', name:'Placa da condensadora', desc:'LEDs na placa eletrônica da unidade externa', decimal:true, eqLine:'inv', prefix:'CH', eqLabel:'Código',
       lamps:[['LED vermelho','r','m'],['LED verde','g','m']],
       how:'O LED vermelho pisca a dezena e o verde, a unidade. Placas com um LED só piscam a dezena, fazem uma pausa curta e piscam a unidade: CH21 = 2 piscadas, pausa, 1 piscada.',
@@ -3558,6 +3564,6 @@ render();
 })();
 </script>
 
-<p style="text-align:center;font:13px system-ui,sans-serif;opacity:.6;margin:0 0 28px">Versão do app 0.6-teste</p>
+<p style="text-align:center;font:13px system-ui,sans-serif;opacity:.6;margin:0 0 28px">Versão do app 0.7-teste</p>
 </body>
 </html>

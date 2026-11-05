@@ -10,8 +10,8 @@ android {
         applicationId 'com.analistadeerros.app'
         minSdk 24
         targetSdk 35
-        versionCode 6
-        versionName '0.6-teste'
+        versionCode 7
+        versionName '0.7-teste'
     }
 
     // Mesma assinatura em todas as versões de teste, para atualizar por cima sem desinstalar
